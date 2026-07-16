@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Knowledge Tutor</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/css/styles.css') }}"
+    >
+</head>
+
+<body>
+    <main class="container">
+        <header>
+            <p class="eyebrow">Personal AI Curriculum</p>
+            <h1>AI Knowledge Tutor</h1>
+            <p>
+                Choose a topic and receive a structured lesson,
+                examples, common mistakes, and a short quiz.
+            </p>
+        </header>
+
+        <section class="panel">
+            <form method="post" action="/teach">
+                <label for="topic">What do you want to learn?</label>
+
+                <input
+                    id="topic"
+                    name="topic"
+                    type="text"
+                    value="{{ topic }}"
+                    placeholder="Example: gradient descent"
+                    required
+                >
+
+                <label for="difficulty">Difficulty</label>
+
+                <select id="difficulty" name="difficulty">
+                    <option
+                        value="beginner"
+                        {% if difficulty == "beginner" %}selected{% endif %}
+                    >
+                        Beginner
+                    </option>
+
+                    <option
+                        value="intermediate"
+                        {% if difficulty == "intermediate" %}selected{% endif %}
+                    >
+                        Intermediate
+                    </option>
+
+                    <option
+                        value="advanced"
+                        {% if difficulty == "advanced" %}selected{% endif %}
+                    >
+                        Advanced
+                    </option>
+                </select>
+
+                <button type="submit">Teach Me</button>
+            </form>
+        </section>
+
+        {% if error %}
+        <section class="panel error-panel">
+            <h2>Something went wrong</h2>
+            <p>{{ error }}</p>
+        </section>
+        {% endif %}
+
+        {% if lesson %}
+        <section class="panel lesson">
+            <h2>Your Lesson</h2>
+
+            <div class="lesson-content">
+                {{ lesson | safe }}
+            </div>
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>
